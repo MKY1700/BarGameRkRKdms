@@ -26,7 +26,7 @@ export function useGameLogic() {
     spawnOrder();
 
     return () => clearInterval(timer);
-  }, []);
+  }, [spawnOrder]);
 
   const cleanBar = useCallback(() => {
     setState(s => ({ ...s, money: s.money + 1000 }));
@@ -35,6 +35,17 @@ export function useGameLogic() {
 
   const endDay = useCallback(() => {
     setState(s => {
+      if (s.day === 30) {
+        showToast('30일 달성! 새로운 시작! (자금 유지)');
+        return {
+          ...initialState,
+          money: s.money,
+          mintUnlocked: s.mintUnlocked,
+          helpedOnce: s.helpedOnce,
+          day: 1,
+        };
+      }
+
       if (s.day === 29 && !s.helpedOnce) {
         const ok = confirm('30일차 특별 손님이 도움을 요청합니다. 돕겠습니까? (한 번만 발생)');
         if (ok) {
@@ -48,7 +59,7 @@ export function useGameLogic() {
           };
         }
       }
-      return { ...s, day: Math.min(30, s.day + 1) };
+      return { ...s, day: s.day + 1 };
     });
   }, [showToast]);
 
@@ -84,6 +95,27 @@ export function useGameLogic() {
         }
       });
       return { ...s, inventory: returnedInventory, mixingSlots: Array(5).fill(null) };
+    });
+  }, []);
+
+  const removeFromMix = useCallback((index) => {
+    setState(s => {
+      const newSlots = [...s.mixingSlots];
+      const ingredient = newSlots[index];
+
+      if (!ingredient) {
+        return s; // Slot is already empty
+      }
+
+      const newInventory = { ...s.inventory };
+      // Return the ingredient to inventory if it's not infinite
+      if (newInventory[ingredient] !== Infinity) {
+        newInventory[ingredient]++;
+      }
+
+      newSlots[index] = null;
+
+      return { ...s, mixingSlots: newSlots, inventory: newInventory };
     });
   }, []);
   
@@ -208,6 +240,7 @@ export function useGameLogic() {
     endDay,
     addToMix,
     clearMix,
+    removeFromMix,
     setTechnique,
     startMix,
     endRhythm,
@@ -216,7 +249,7 @@ export function useGameLogic() {
     tryServe,
     buy,
   }), [
-    cleanBar, endDay, addToMix, clearMix, setTechnique, startMix, 
+    cleanBar, endDay, addToMix, clearMix, removeFromMix, setTechnique, startMix, 
     endRhythm, cancelRhythm, spawnOrder, tryServe, buy
   ]);
 
