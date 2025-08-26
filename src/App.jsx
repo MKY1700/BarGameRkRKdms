@@ -11,7 +11,7 @@ function App() {
   const game = useGameLogic();
 
   return (
-    <>
+    <div className="app-container">
       <Hud state={game.state} handlers={game.handlers} />
       <div className="main-content">
         <Scene state={game.state} handlers={game.handlers} />
@@ -22,7 +22,7 @@ function App() {
         <RhythmOverlay state={game.state} handlers={game.handlers} />
       )}
       {game.state.toast && <Toast message={game.state.toast} />}
-    </>
+    </div>
   );
 }
 

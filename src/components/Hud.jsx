@@ -12,7 +12,7 @@ const Hud = ({ state, handlers }) => {
         <span className="tag">가니쉬(올리브): <b>{state.inventory.olive}</b>개</span>
         <span className="tag">민트: <b>{state.inventory.mint}</b>잎</span>
       </div>
-      <div className="center">BAR TYCOON — Rhythm + Puzzle</div>
+      <div className="center">까망베르</div>
       <div className="right">
         <button className="btn" onClick={handlers.cleanBar}>매장 청소 (+₩1,000)</button>
         <button className="btn" onClick={handlers.endDay}>영업 종료</button>

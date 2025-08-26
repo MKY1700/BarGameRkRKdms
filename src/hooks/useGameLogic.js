@@ -26,7 +26,7 @@ export function useGameLogic() {
     spawnOrder();
 
     return () => clearInterval(timer);
-  }, [spawnOrder]);
+  }, []);
 
   const cleanBar = useCallback(() => {
     setState(s => ({ ...s, money: s.money + 1000 }));
@@ -189,13 +189,17 @@ export function useGameLogic() {
 
   const spawnOrder = useCallback(() => {
     setState(s => {
+        if (s.orders.length >= 4) {
+            showToast('더 이상 주문을 받을 수 없습니다. (최대 4개)');
+            return s;
+        }
         const keys = Object.keys(RECIPES);
         const pick = keys[Math.floor(Math.random() * keys.length)];
         const id = 'ORD-' + Math.random().toString(36).slice(2, 8);
         const order = { id, recipeKey: pick, name: RECIPES[pick].name, ttl: 60, mood: 1.0 };
         return { ...s, orders: [...s.orders, order] };
     });
-  }, []);
+  }, [showToast]);
 
   const tryServe = useCallback(() => {
     showToast('레시피를 만들어 제공하세요. (제조 시작 후 자동 인식)');

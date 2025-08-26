@@ -6,7 +6,7 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial, "Apple Color Emoji", "Segoe UI Emoji";
   background: #0f1117; /* deep bar interior */
   color: #e6e8ee;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 #root {
@@ -52,8 +52,8 @@ button { cursor: pointer; }
   padding: 1rem;
   padding-top: 78px; /* HUD height + padding */
   display: grid; 
-  grid-template-columns: 3fr 1.1fr; 
-  grid-template-rows: 55vh auto;
+  grid-template-columns: 2fr 1fr; 
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: 1rem;
   flex: 1;
   min-height: 0;
@@ -62,11 +62,15 @@ button { cursor: pointer; }
 /* ===== Bar Scene ===== */
 .scene { position: relative; background: radial-gradient(1200px 600px at 50% 110%, #141827 0%, #0f1117 55%); overflow: hidden; }
 
-/* Bar counter */
-.counter { position: absolute; left: 0; right: 0; bottom: 0; height: 15%; background: linear-gradient(180deg, #1b2033, #0f1526); border-top: 1px solid rgba(255,255,255,.08); box-shadow: 0 -20px 60px rgba(0,0,0,.5) inset; }
-
-/* Window showing street (outside silhouettes) */
-.window { position: absolute; top: 8%; left: 50%; transform: translateX(-50%); width: 80%; height: 75%; background: linear-gradient(180deg, rgba(59,130,246,.14), rgba(59,130,246,.08)); border: 2px solid rgba(59,130,246,.25); border-radius: 16px; overflow: hidden; box-shadow: inset 0 0 40px rgba(96,165,250,.25), 0 10px 40px rgba(0,0,0,.4); }
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 20%;
+  background: #2c2c2c;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  box-shadow: 0 -5px 15px rgba(0,0,0,.3);
 
 .street { position: absolute; inset: 0; background: linear-gradient(180deg, #0b0f1a, #06070c); }
 
@@ -107,7 +111,7 @@ button { cursor: pointer; }
 
 .right-panel { background: linear-gradient(180deg, #121726, #0b0f1d); border-left: 1px solid rgba(255,255,255,.08); padding: 1rem; display: grid; grid-template-rows: auto 1fr auto; gap: .75rem; }
 
-.orders { background: var(--panel-2); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: .75rem; overflow: auto; }
+.orders { background: var(--panel-2); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: .75rem; max-height: 200px; overflow-y: auto; }
 .order { border:1px solid rgba(255,255,255,.08); border-radius: 12px; padding: .5rem .6rem; margin-bottom: .5rem; background: rgba(255,255,255,.03); }
 
 .shop { background: var(--panel-2); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: .75rem; }
@@ -159,4 +163,13 @@ button { cursor: pointer; }
 .toast.show {
   opacity: 1;
   bottom: 30px;
+}
+
+.app-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
